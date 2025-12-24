@@ -3,28 +3,35 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import Admin from './Admin/Admin';
-
+import Dashboard from './Pages/Dashboards/Dashboard';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  // Handle sidebar based on window size
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) setSidebarOpen(false);
-      else setSidebarOpen(true);
-    };
+    const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
+    if (windowWidth < 768) setSidebarOpen(false);
+    else setSidebarOpen(true);
+  }, [windowWidth]);
+
+  // Theme handling
+  useEffect(() => {
     const theme = localStorage.getItem('theme');
     if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       document.documentElement.classList.add('dark');
+      document.body.classList.remove('bg-white', 'text-black');
       document.body.classList.add('bg-gray-900', 'text-white');
     } else {
       document.documentElement.classList.remove('dark');
+      document.body.classList.remove('bg-gray-900', 'text-white');
       document.body.classList.add('bg-white', 'text-black');
     }
   }, []);
@@ -34,8 +41,9 @@ function App() {
       <div className="flex min-h-screen overflow-x-hidden transition-colors duration-300">
         <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
 
+        {/* Overlay for small screens */}
         <AnimatePresence>
-          {sidebarOpen && window.innerWidth < 768 && (
+          {sidebarOpen && windowWidth < 768 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -51,9 +59,19 @@ function App() {
 
           <main className="p-4 md:p-6 flex-1">
             <Routes>
-              <Route path="/" element={<Admin />} />
-              <Route path="/courses" element={<div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm text-gray-900 dark:text-gray-100">কোর্স লিস্ট</div>} />
-              <Route path="/students" element={<div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm text-gray-900 dark:text-gray-100">স্টুডেন্ট লিস্ট</div>} />
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/courses" element={<div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm text-gray-900 dark:text-gray-100">
+                    কোর্স লিস্ট</div>
+                }
+              />
+              <Route
+                path="/students"
+                element={
+                  <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm text-gray-900 dark:text-gray-100">
+                    স্টুডেন্ট লিস্ট
+                  </div>
+                }
+              />
             </Routes>
           </main>
         </div>
