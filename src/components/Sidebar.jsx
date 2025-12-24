@@ -28,13 +28,13 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         x: (window.innerWidth < 768 && !isOpen) ? -260 : 0 
       }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="fixed md:sticky top-0 left-0 h-screen bg-[#5D78FF] text-white flex flex-col z-50 shadow-xl overflow-hidden"
+      className="fixed md:sticky top-0 left-0 h-screen bg-[#042954] text-white flex flex-col z-50 shadow-xl overflow-hidden"
     >
-      <div className="p-6 flex items-center gap-3 min-w-[260px]">
+      <div className="p-6 flex items-center gap-3 min-w-[260px] bg-[#FFA90C]">
          <div className="w-8 h-8 bg-cyan-400 rounded-lg shrink-0 flex items-center justify-center shadow-lg">
             <div className="w-4 h-4 bg-white/30 rounded-sm rotate-45" />
          </div>
-         <span className={`text-xl font-bold tracking-wider transition-opacity duration-300 ${!isOpen && 'md:opacity-0'}`}>
+         <span className={`text-xl  font-bold tracking-wider transition-opacity duration-300 ${!isOpen && 'md:opacity-0'}`}>
             KONRIX
          </span>
       </div>

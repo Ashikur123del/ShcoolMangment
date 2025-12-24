@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import HomeContent from './components/HomeContent';
+import Admin from './Admin/Admin';
+
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -50,7 +51,7 @@ function App() {
 
           <main className="p-4 md:p-6 flex-1">
             <Routes>
-              <Route path="/" element={<HomeContent />} />
+              <Route path="/" element={<Admin />} />
               <Route path="/courses" element={<div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm text-gray-900 dark:text-gray-100">কোর্স লিস্ট</div>} />
               <Route path="/students" element={<div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm text-gray-900 dark:text-gray-100">স্টুডেন্ট লিস্ট</div>} />
             </Routes>
