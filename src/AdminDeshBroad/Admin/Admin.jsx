@@ -4,6 +4,8 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   BarChart, Bar, PieChart, Pie, Cell 
 } from 'recharts';
+import DailyLifeManagement from './DailyLifeManagement';
+import SocialCounter from './SocialCounter';
 
 // --- Data for Charts ---
 const areaData = [
@@ -38,7 +40,7 @@ const Admin = () => {
   ];
 
   return (
-    <div className="p-8 bg-[#F0F1F3] min-h-screen font-sans text-gray-800">
+    <div className="ml-10  md:ml-0 p-8 bg-[#F0F1F3] min-h-screen font-sans text-gray-800">
       
       {/* 1. Header & Breadcrumb */}
       <div className="mb-8">
@@ -148,6 +150,8 @@ const Admin = () => {
         </div>
 
       </div>
+      <DailyLifeManagement />
+      <SocialCounter />
     </div>
   );
 };

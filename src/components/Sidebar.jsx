@@ -17,8 +17,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       path: '/',
       subMenu: [
         { name: 'Admin', path: '/' },
-        { name: 'Students', path: '/students' },
-        { name: 'Teachers', path: '/teachers' },
+       
       ]
     },
     { 
@@ -26,13 +25,17 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       icon: <Users size={22} />, 
       path: '/students',
       subMenu: [
-        { name: 'All Students', path: '/students/all' },
-        { name: 'Admission Form', path: '/students/admission' },
-        { name: 'Student Promotion', path: '/students/promotion' },
+        { name: 'Setting', path: '/students/all' },
+        { name: 'Configauration', path: '/students/admission' },
+        { name: 'Registration', path: '/students/promotion' },
+        { name: 'Update', path: '/students/promotion' },
+        { name: 'Migraation', path: '/students/promotion' },
+        { name: 'Delete', path: '/students/promotion' },
+        { name: 'Reports', path: '/students/promotion' },
       ]
     },
     { 
-      name: 'Teachers', 
+      name: 'Teacher & Staff', 
       icon: <UserSquare2 size={22} />, 
       path: '/teachers',
       subMenu: [
@@ -42,7 +45,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       ]
     },
     { 
-      name: 'Parents', 
+      name: 'Student Accounts', 
       icon: <Users2 size={22} />, 
       path: '/parents',
       subMenu: [
@@ -51,7 +54,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       ]
     },
     { 
-      name: 'Library', 
+      name: 'General Accounts', 
       icon: <Library size={22} />, 
       path: '/library',
       subMenu: [
@@ -60,7 +63,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       ]
     },
     { 
-      name: 'Account', 
+      name: 'Student Attendance', 
       icon: <Calculator size={22} />, 
       path: '/account',
       subMenu: [
@@ -69,7 +72,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       ]
     },
     { 
-      name: 'Class', 
+      name: 'Teacher Attendance', 
       icon: <PencilRuler size={22} />, 
       path: '/class',
       subMenu: [
@@ -77,9 +80,115 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         { name: 'New Class', path: '/class/add' },
       ]
     },
-    { name: 'Subject', icon: <BookMarked size={22} />, path: '/subject', subMenu: [] },
-    { name: 'Class Routine', icon: <CalendarDays size={22} />, path: '/routine', subMenu: [] },
-    { name: 'Attendance', icon: <ClipboardCheck size={22} />, path: '/attendance', subMenu: [] },
+    { 
+      name: 'Exam & Result', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'New Result', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Routine', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Accessories', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Sms Management', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Payslip Management', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Holiday', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Basic Setting', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Online Admission', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'User Management', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Website Management', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+    { 
+      name: 'Website Link', 
+      icon: <PencilRuler size={22} />, 
+      path: '/class',
+      subMenu: [
+        { name: 'All Classes', path: '/class/all' },
+        { name: 'New Class', path: '/class/add' },
+      ]
+    },
+   
   ];
 
   const handleMenuClick = (menuName) => {
@@ -89,17 +198,17 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   return (
     <motion.div
       animate={{ width: isOpen ? 280 : 85 }}
-      className="fixed md:sticky top-0 left-0 h-screen bg-[#002147] text-gray-300 flex flex-col z-50 shadow-2xl overflow-hidden"
+      className="fixed md:sticky top-0 left-0 h-auto bg-[#002147] text-gray-300 flex flex-col z-50 shadow-2xl overflow-hidden"
     >
       {/* Top Header */}
       <div className="h-[70px] flex items-center px-4 bg-[#ffa001] shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-            <GraduationCap className="text-[#002147] w-6 h-6" />
+            <GraduationCap className="text-[#002147]  w-6 h-6" />
           </div>
           {isOpen && (
             <span className="text-2xl font-bold text-white">
-              SOFTEDU <span className="text-[10px] align-top font-normal">TM</span>
+             Mentorerp <span className="text-[10px] align-top font-normal">MT</span>
             </span>
           )}
         </div>
@@ -112,11 +221,11 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
           const hasSub = item.subMenu && item.subMenu.length > 0;
 
           return (
-            <div key={index} className="border-b border-white/5">
+            <div key={index} className="pl-5 md:pl-0 border-b border-white/5">
               {/* Main Menu Button */}
               <div
                 onClick={() => handleMenuClick(item.name)}
-                className={`flex items-center justify-between px-5 py-4 cursor-pointer transition-all hover:bg-[#001b3a] ${
+                className={`flex items-center justify-between md:px-5 py-4 cursor-pointer transition-all hover:bg-[#001b3a] ${
                   isExpanded ? 'bg-[#001b3a] text-white' : 'text-gray-400'
                 }`}
               >
