@@ -1,81 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
+import { AnimatePresence, motion } from 'framer-motion';
+
 import Dashboard from './Pages/Dashboards/Dashboard';
+import Root from './RootLayout/Root';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  // Handle sidebar based on window size
+  // Responsive Sidebar Control
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      if (window.innerWidth < 1024) setSidebarOpen(false);
+      else setSidebarOpen(true);
+    };
     window.addEventListener('resize', handleResize);
-    handleResize();
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    if (windowWidth < 768) setSidebarOpen(false);
-    else setSidebarOpen(true);
-  }, [windowWidth]);
-
-  // Theme handling
-  useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-      document.body.classList.remove('bg-white', 'text-black');
-      document.body.classList.add('bg-gray-900', 'text-white');
-    } else {
-      document.documentElement.classList.remove('dark');
-      document.body.classList.remove('bg-gray-900', 'text-white');
-      document.body.classList.add('bg-white', 'text-black');
-    }
   }, []);
 
   return (
     <Router>
-      <div className="flex min-h-screen overflow-x-hidden transition-colors duration-300">
-        <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {sidebarOpen && windowWidth < 1024 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-[45] lg:hidden backdrop-blur-sm"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
-        {/* Overlay for small screens */}
-        <AnimatePresence>
-          {sidebarOpen && windowWidth < 768 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/40 z-[45] md:hidden backdrop-blur-sm"
-              onClick={() => setSidebarOpen(false)}
+      <Routes>
+        {/* Root Layout wrapper */}
+        <Route 
+          path="/" 
+          element={
+            <Root 
+              sidebarOpen={sidebarOpen} 
+              setSidebarOpen={setSidebarOpen} 
+              windowWidth={windowWidth} 
             />
-          )}
-        </AnimatePresence>
+          }
+        >
+          {/* Dashboard Route */}
+          <Route index element={<Dashboard />} />
 
-        <div className="flex-1 flex flex-col min-w-0">
-          <Navbar setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
+          {/* Student Sub-routes */}
+          <Route path="students">
+            <Route path="setting" element={<div>Student Setting Page</div>} />
+            <Route path="configuration" element={<div>Student Configuration Page</div>} />
+            <Route path="registration" element={<div>Student Registration Page</div>} />
+            <Route path="update" element={<div>Student Update Page</div>} />
+            <Route path="reports" element={<div>Student Reports Page</div>} />
+          </Route>
 
-          <main className="p-4 md:p-6 flex-1">
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/courses" element={<div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm text-gray-900 dark:text-gray-100">
-                    কোর্স লিস্ট</div>
-                }
-              />
-              <Route
-                path="/students"
-                element={
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm text-gray-900 dark:text-gray-100">
-                    স্টুডেন্ট লিস্ট
-                  </div>
-                }
-              />
-            </Routes>
-          </main>
-        </div>
-      </div>
+          {/* Teacher Sub-routes */}
+          <Route path="teachers">
+            <Route path="setting" element={<div>Teacher Setting Page</div>} />
+            <Route path="registration" element={<div>Teacher Registration Page</div>} />
+            <Route path="assign" element={<div>Teacher Assign Page</div>} />
+            <Route path="reports" element={<div>Teacher Reports Page</div>} />
+          </Route>
+
+          {/* Account Sub-routes */}
+          <Route path="student-accounts">
+            <Route path="fee-collection" element={<div>Fee Collection Page</div>} />
+            <Route path="reports" element={<div>Accounts Reports Page</div>} />
+          </Route>
+
+          {/* 404 Page */}
+          <Route path="*" element={<div className="p-10 text-center text-xl">404 - Page Not Found</div>} />
+        </Route>
+      </Routes>
     </Router>
   );
 }
