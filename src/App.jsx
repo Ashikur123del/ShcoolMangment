@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Dashboard from './Pages/Dashboards/Dashboard';
 import Root from './RootLayout/Root';
 import StudentRegistration from './Pages/Students/StudentRegistration';
+import RegistrationExcel from './Pages/Students/RegistrationExcel';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -51,7 +52,7 @@ function App() {
           {/* Student Information */}
           <Route path="students">
             <Route path="registration/form" element={<StudentRegistration />} />
-            <Route path="registration/excel" element={<div>Student Excel Form</div>} />
+            <Route path="registration/excel" element={<RegistrationExcel /> } />
             <Route path="update/profile" element={<div>Student Profile Update</div>} />
             <Route path="update/basic-info" element={<div>Student Basic Info Update</div>} />
             <Route path="update/class-info" element={<div>Student Class Info Update</div>} />

@@ -849,7 +849,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             
             {(isOpen || window.innerWidth < 768) && (
               <span className={`whitespace-nowrap capitalize tracking-wide select-none transition-all duration-300
-                ${isActive ? 'text-[#ffa001] font-bold' : depth === 0 ? 'text-[15px] font-bold' : 'text-[14px] font-medium'}`}>
+                ${isActive ? 'text-[#ffa001] font-bold' : depth === 0 ? 'text-[17px] font-bold' : 'text-[16px] font-medium'}`}>
                 {item.name}
               </span>
             )}
