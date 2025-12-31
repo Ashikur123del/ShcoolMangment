@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Gauge, Users, UserSquare2, ChevronDown, 
-  GraduationCap, LayoutGrid, ArrowRight
+  Gauge, Users,  ChevronDown, 
+  GraduationCap,  ArrowRight, X, 
+  Contact,
+  ClipboardCheck,
+  Fingerprint,
+  FileText,
+  Pencil,
+  CalendarDays,
+  CircleDollarSign,
+  HandCoins,
+  Package,
+  LineChart,
+  Award,
+  BellRing,
+  Settings2,
+  Headset
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -45,7 +59,6 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             { name: 'migration pushback', path: '/students/migration/pushback' },
           ] 
         },
-        // --- REPORTS LABEL ADDED HERE ---
         { type: 'label', label: 'REPORTS' },
         { 
           name: 'summary', 
@@ -67,7 +80,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'teacher infromation', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <Contact size={22} />, 
       subMenu: [
         {
           name: 'registration',
@@ -103,7 +116,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'student attendance', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <ClipboardCheck size={22} />, 
       subMenu: [
         {
           name: 'setting',
@@ -170,7 +183,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'teacher attendance', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <Fingerprint size={22} />, 
       subMenu: [
         {
           name: 'setting',
@@ -238,7 +251,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'semester exam', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <FileText size={22} />, 
       subMenu: [
         {
           name: 'setting',
@@ -323,7 +336,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'class test', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <Pencil size={22} />, 
       subMenu: [
        {
           name: 'setting',
@@ -368,7 +381,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'routing mangement', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <CalendarDays size={22} />, 
       subMenu: [
         {
           name: 'setting',
@@ -403,7 +416,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'fees management', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <CircleDollarSign size={22} />, 
       subMenu: [
        {
           name: 'setting',
@@ -464,7 +477,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'payroll management', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <HandCoins size={22} />, 
       subMenu: [
         {
           name: 'setting',
@@ -513,7 +526,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'inventory', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <Package size={22} />, 
       subMenu: [
        {
           name: 'setting',
@@ -562,7 +575,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'accounts management', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <LineChart size={22} />, 
       subMenu: [
         {
           name: 'setting',
@@ -616,7 +629,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'layuout & certificates', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <Award size={22} />, 
       subMenu: [
        {
           name: 'setting',
@@ -640,7 +653,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'SMS & notificacation', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <BellRing size={22} />, 
       subMenu: [
         {
           name: 'create',
@@ -684,7 +697,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
     },
     { 
       name: 'core setting', 
-      icon: <UserSquare2 size={22} />, 
+      icon: <Settings2 size={22} />, 
       subMenu: [
        {
           name: 'institute setting',
@@ -717,6 +730,30 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         },
       ]
     },
+    { 
+  name: 'Support Token', 
+  icon: <Headset size={22} />, 
+  subMenu: [
+    {
+      name: 'Support Token',
+      children: [
+        { 
+          name: 'Submit Token', 
+          path: '/support/tokens/submit' 
+        },
+      ]
+    },
+    {
+      name: 'Details',
+      children: [
+        { 
+          name: 'Token Status', 
+          path: '/support/tokens/details' 
+        },
+      ]
+    },
+  ]
+},
   ];
 
   useEffect(() => {
@@ -751,11 +788,10 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   };
 
   const MenuItem = ({ item, depth = 0 }) => {
-    // LABEL RENDER LOGIC
     if (item.type === 'label') {
       return (isOpen || window.innerWidth < 768) ? (
-        <div className="px-8 mt-2">
-          <span className="text-[10px] font-bold bg-[#FF9507] text-white/80 px-2 py-0.5 rounded uppercase tracking-tighter">
+        <div className="px-8 mt-1">
+          <span className=" ml-6 text-[12px] font-bold border border-gray-300 bg-[#FF9507] text-gray-200 px-4 py-1 rounded uppercase tracking-tighter">
             {item.label}
           </span>
         </div>
@@ -849,44 +885,68 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   };
 
   return (
-    <motion.div
-      initial={false}
-      animate={{ 
-        width: isOpen ? 300 : (window.innerWidth < 768 ? 300 : 80),
-        x: window.innerWidth < 768 ? (isOpen ? 0 : -300) : 0 
-      }}
-      className="fixed left-0 top-0 h-screen bg-[#001b3a] text-gray-100 flex flex-col z-50 shadow-[5px_0_25px_rgba(0,0,0,0.5)] overflow-hidden"
-    >
-      <div className="h-[80px] flex items-center px-5 bg-gradient-to-br from-[#ffa001] to-[#ff8c00] shrink-0 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl" />
-        <div className="flex items-center gap-4 z-10">
-          <motion.div 
-            whileHover={{ rotate: 360 }}
-            transition={{ duration: 0.8 }}
-            className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-orange-200"
-          >
-            <GraduationCap className="text-[#ffa001] w-7 h-7" />
-          </motion.div>
-          {(isOpen || window.innerWidth < 768) && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col">
-              <span className="text-xl font-black text-white leading-tight tracking-tight">MentorERP</span>
-              <span className="text-[11px] text-white/70 font-bold uppercase tracking-[0.2em]">Enterprise Solution</span>
+    <>
+      {/* Background Overlay for Mobile only when Sidebar is open */}
+      <AnimatePresence>
+        {isOpen && window.innerWidth < 768 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[45]"
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        initial={false}
+        animate={{ 
+          width: isOpen ? 300 : (window.innerWidth < 768 ? 300 : 80),
+          x: window.innerWidth < 768 ? (isOpen ? 0 : -300) : 0 
+        }}
+        className="fixed left-0 top-0 h-screen bg-[#001b3a] text-gray-100 flex flex-col z-50 shadow-[5px_0_25px_rgba(0,0,0,0.5)] overflow-hidden"
+      >
+        <div className="h-[80px] flex items-center justify-between px-5 bg-gradient-to-br from-[#ffa001] to-[#ff8c00] shrink-0 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -mr-10 -mt-10 blur-2xl" />
+          <div className="flex items-center gap-4 z-10">
+            <motion.div 
+              whileHover={{ rotate: 360 }}
+              transition={{ duration: 0.8 }}
+              className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-lg border border-orange-200"
+            >
+              <GraduationCap className="text-[#ffa001] w-7 h-7" />
             </motion.div>
+            {(isOpen || window.innerWidth < 768) && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col">
+                <span className="text-xl font-black text-white leading-tight tracking-tight">MentorERP</span>
+                <span className="text-[11px] text-white/70 font-bold uppercase tracking-[0.2em]">Enterprise Solution</span>
+              </motion.div>
+            )}
+          </div>
+
+          {/* MOBILE CLOSE ICON ADDED HERE */}
+          {window.innerWidth < 768 && isOpen && (
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="z-50 p-2 hover:bg-white/20 rounded-full transition-colors"
+            >
+              <X size={24} className="text-white" />
+            </button>
           )}
         </div>
-      </div>
 
-      <nav className="flex-1 mt-4 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 hover:scrollbar-thumb-[#ffa001]/30 pb-10">
-        {menuLinks.map((item, index) => (
-          <MenuItem key={index} item={item} />
-        ))}
-      </nav>
-      <style jsx="true">{`
-        nav::-webkit-scrollbar { width: 5px; }
-        nav::-webkit-scrollbar-thumb { border-radius: 10px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-      `}</style>
-    </motion.div>
+        <nav className="flex-1 mt-4 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 hover:scrollbar-thumb-[#ffa001]/30 pb-10">
+          {menuLinks.map((item, index) => (
+            <MenuItem key={index} item={item} />
+          ))}
+        </nav>
+        <style jsx="true">{`
+          nav::-webkit-scrollbar { width: 5px; }
+          nav::-webkit-scrollbar-thumb { border-radius: 10px; }
+        `}</style>
+      </motion.div>
+    </>
   );
 };
 

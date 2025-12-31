@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Dashboard from './Pages/Dashboards/Dashboard';
 import Root from './RootLayout/Root';
+import StudentRegistration from './Pages/Students/StudentRegistration';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -49,7 +50,7 @@ function App() {
 
           {/* Student Information */}
           <Route path="students">
-            <Route path="registration/form" element={<div>Student Registration Form</div>} />
+            <Route path="registration/form" element={<StudentRegistration />} />
             <Route path="registration/excel" element={<div>Student Excel Form</div>} />
             <Route path="update/profile" element={<div>Student Profile Update</div>} />
             <Route path="update/basic-info" element={<div>Student Basic Info Update</div>} />
