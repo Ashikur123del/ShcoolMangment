@@ -1,297 +1,225 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Settings, HelpCircle, Save, RotateCcw, ChevronDown, Search, Users, CheckCircle2 } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Settings, HelpCircle, Save, RotateCcw, ChevronDown, Search, Users, LayoutGrid } from 'lucide-react';
 
 const StudentRegistration = () => {
-  const [rowCount, setRowCount] = useState(5);
-  const [rows, setRows] = useState(Array.from({ length: 6 }, () => createEmptyRow()));
-  const [activeSelect, setActiveSelect] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [rowCount, setRowCount] = useState(1);
+  const [rows, setRows] = useState(Array.from({ length: 1 }, () => createEmptyRow()));
   const [sendSms, setSendSms] = useState(false);
-
-  const THEME_COLOR = "#FF9606"; 
-  const NAVY_BLUE = "#2D3192";
 
   function createEmptyRow() {
     return {
       id: Math.random().toString(36).substr(2, 9),
-      selected: false,
-      name: '',
-      gender: '',
-      religion: '',
-      category: '',
-      designation: '',
-      mobile: '',
-      isValidMobile: true
+      roll: '', name: '', gender: '', religion: '', fatherName: '', motherName: '', mobile: ''
     };
   }
-
-  // কাউন্টার ক্যালকুলেশন
-  const selectedCount = rows.filter(r => r.selected).length;
-  const isAllSelected = rows.length > 0 && rows.every(r => r.selected);
-
-  const handleSelectAll = () => {
-    const newValue = !isAllSelected;
-    setRows(rows.map(r => ({ ...r, selected: newValue })));
-  };
 
   const handleProcess = () => {
     const count = Math.min(Math.max(Number(rowCount), 1), 50);
     setRows(Array.from({ length: count }, () => createEmptyRow()));
   };
 
-  const updateRow = (index, field, value) => {
-    const newRows = [...rows];
-    
-    if (field === 'mobile') {
-      const cleaned = value.replace(/\D/g, '').slice(0, 11);
-      newRows[index][field] = cleaned;
-      newRows[index].isValidMobile = cleaned.length === 0 || /^01[3-9]\d{8}$/.test(cleaned);
-    } else {
-      newRows[index][field] = value;
-    }
-
-    // অটো সিলেকশন লজিক
-    if (value !== "" && field !== 'selected') {
-      newRows[index].selected = true;
-    }
-    
-    setRows(newRows);
-    
-    if (['gender', 'religion', 'category', 'designation'].includes(field)) {
-      setActiveSelect(null);
-      setSearchTerm("");
-    }
-  };
-
-  // ক্লিয়ার ফাংশন
-  const resetForm = () => {
-    if (window.confirm("Are you sure you want to reset all data?")) {
-      setRows(Array.from({ length: 6 }, () => createEmptyRow()));
-      setRowCount(5);
-    }
-  };
-
-  const optionsData = {
-    gender: ['Male', 'Female', 'Other'],
-    religion: ['Islam', 'Hindu', 'Christian', 'Buddhist'],
-    category: ['General', 'Staff', 'Internal'],
-    designation: ['BEP', 'Headmaster', 'Director', 'Principal', 'Senior Teacher', 'Lecturer']
-  };
-
   return (
-    <div className="min-h-screen bg-[#F3F4F6] p-4 md:p-8 font-sans text-gray-800">
-      <div className="max-w-[1440px] mx-auto border border-gray-200 rounded-2xl bg-white shadow-xl overflow-hidden">
+    <div className="min-h-screen bg-[#F1F5F9] p-2 md:p-6 font-sans antialiased text-slate-900">
+      <div className="max-w-[1400px] mx-auto bg-white shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] rounded-xl border border-slate-200 overflow-visible">
         
-        {/* Top Header */}
-        <div className="flex justify-between items-center px-8 py-6 border-b border-gray-100 bg-white">
-           <div className="flex items-center gap-3">
-              <div className="bg-[#2D3192] p-2 rounded-lg">
-                <Users className="text-white" size={24} />
-              </div>
-              <h1 className="text-2xl font-black text-[#2D3192] tracking-tight uppercase">Enlistment <span className="text-[#FF9606]">Terminal</span></h1>
-           </div>
-           <div className="flex items-center gap-4">
-              <div className="hidden md:flex flex-col items-end">
-                <span className="text-[10px] font-bold text-gray-400 uppercase">System Status</span>
-                <span className="text-[12px] font-bold text-green-500 flex items-center gap-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" /> Live & Secure
-                </span>
-              </div>
-              <HelpCircle size={28} className="text-gray-300 hover:text-red-500 cursor-pointer transition-colors" />
-           </div>
+        {/* Top Header - Smart & Minimal */}
+        <div className="flex justify-between items-center px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-white to-slate-50">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-[#2D3192] rounded-lg shadow-md shadow-indigo-100">
+              <LayoutGrid size={20} className="text-white" />
+            </div>
+            <h1 className="text-lg font-bold tracking-tight text-[#2D3192]">
+              Student Registration Enrollment
+            </h1>
+          </div>
+          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all duration-300 shadow-sm">
+            <HelpCircle size={18} />
+          </button>
         </div>
 
-        {/* Action Control Panel */}
-        <div className="bg-gray-50/50 p-6 border-b border-gray-100">
-          <div className="flex flex-wrap items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-               <div className="relative">
-                  <input
-                    type="number"
-                    value={rowCount}
-                    onChange={(e) => setRowCount(e.target.value)}
-                    className="w-32 border-2 border-gray-200 rounded-xl px-4 py-3 text-xl font-bold focus:border-[#FF9606] outline-none transition-all"
-                  />
-                  <span className="absolute -top-2.5 left-3 bg-white px-2 text-[10px] font-bold text-[#2D3192] uppercase">Rows</span>
-               </div>
-               <button
-                onClick={handleProcess}
-                className="bg-[#2D3192] hover:bg-[#1e2163] px-8 py-3.5 rounded-xl text-white font-bold text-sm flex items-center gap-3 transition-all shadow-lg active:scale-95"
-              >
-                <Settings size={18} className="animate-spin-slow" /> GENERATE SHEET
-              </button>
+        {/* Configuration Section */}
+        <div className="p-6">
+          <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm relative overflow-visible">
+            <div className="absolute -top-3 left-4 bg-white px-3 text-[11px] font-black uppercase tracking-widest text-[#2D3192]">
+              Enrollment Parameters
             </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-6">
+              <SearchableSelect label="Academic Year" options={['2025', '2024', '2018']} />
+              <SearchableSelect label="Category" options={['A', 'General', 'BGB']} />
+              <SearchableSelect label="Section" options={['PLAY-Morning-A', 'PLAY-Day-B', 'Nursery-A']} />
+              <SearchableSelect label="Group" options={['N/A', 'Science', 'Arts', 'Commerce']} />
 
-            <div className="flex gap-4">
-               <div className="bg-white px-6 py-3 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
-                  <CheckCircle2 className="text-[#FF9606]" size={20} />
-                  <div>
-                    <p className="text-[10px] font-bold border border-gray-300 text-gray-400 uppercase leading-none">Selected</p>
-                    <p className="text-lg font-black text-[#2D3192] leading-none">{selectedCount}</p>
-                  </div>
-               </div>
+              <div className="space-y-1.5 group">
+                <div className="flex justify-between items-center px-1">
+                  <label className="text-[12px] font-bold text-slate-600 group-focus-within:text-[#FF9606] transition-colors">
+                    No. of Rows <span className="text-red-500">*</span>
+                  </label>
+                  <span className="text-[10px] font-bold text-slate-400">Max 50</span>
+                </div>
+                <input 
+                  type="number" 
+                  value={rowCount}
+                  onChange={(e) => setRowCount(e.target.value)}
+                  className="w-full h-11 border border-slate-200 rounded-lg px-4 text-sm font-medium focus:ring-4 focus:ring-orange-50 focus:border-[#FF9606] outline-none transition-all duration-200 bg-slate-50/30 focus:bg-white" 
+                />
+              </div>
+
+              <div className="flex items-end">
+                <button 
+                  onClick={handleProcess}
+                  className="w-full h-11 bg-gradient-to-r from-[#3368f1] to-[#4247a1]  hover:bg-[#1e2163] text-white rounded-lg flex items-center justify-center gap-2 text-sm font-bold transition-all duration-300 shadow-lg shadow-indigo-100 hover:shadow-indigo-200 active:scale-[0.98]"
+                >
+                  <Settings size={18} className="animate-spin-slow" /> PROCESS DATA
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Table Container */}
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-[#2D3192]">
-                <th className="p-4 w-20">
-                  <button 
-                    onClick={handleSelectAll}
-                    className={`w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all ${isAllSelected ? 'bg-[#FF9606] border-[#FF9606]' : 'border-white/30 hover:border-white'}`}
-                  >
-                    {isAllSelected && <div className="w-3 h-2 border-l-2 border-b-2 border-white -rotate-45 mb-1" />}
-                  </button>
-                </th>
-                {['Full Name', 'Gender', 'Religion', 'Category', 'Designation', 'Mobile No.'].map(h => (
-                  <th key={h} className="p-4 text-left text-[12px] font-extrabold text-white uppercase tracking-wider border-r border-white/10">
-                    {h} <span className="text-orange-400">*</span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {rows.map((row, index) => (
-                <tr key={row.id} className={`group transition-colors ${row.selected ? 'bg-orange-50/30' : 'hover:bg-gray-50'}`}>
-                  <td className="p-4 text-center">
-                    <button 
-                      onClick={() => updateRow(index, 'selected', !row.selected)}
-                      className={`w-5 h-5 mx-auto rounded border-2 flex items-center justify-center transition-all ${row.selected ? 'bg-[#FF9606] border-[#FF9606]' : 'border-gray-300 group-hover:border-[#FF9606]'}`}
-                    >
-                      {row.selected && <div className="w-2.5 h-1.5 border-l-2 border-b-2 border-white -rotate-45 mb-0.5" />}
-                    </button>
-                  </td>
-                  <td className="p-2 border-r border-gray-200">
-                    <input 
-                      type="text" value={row.name} onChange={(e) => updateRow(index, 'name', e.target.value)}
-                      placeholder="Type name..." 
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:bg-white outline-none text-[14px] font-medium transition-all bg-transparent focus:ring-2 focus:ring-orange-100" 
-                    />
-                  </td>
-                  {['gender', 'religion', 'category', 'designation'].map((field) => (
-                    <td key={field} className="p-2 border-r border-gray-200">
-                      <CustomSelect 
-                        index={index} 
-                        field={field} 
-                        value={row[field]} 
-                        options={optionsData[field]} 
-                        activeSelect={activeSelect}
-                        setActiveSelect={setActiveSelect}
-                        updateRow={updateRow}
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                      />
-                    </td>
-                  ))}
-                  <td className="p-2">
-                    <input 
-                      type="text" value={row.mobile} onChange={(e) => updateRow(index, 'mobile', e.target.value)}
-                      placeholder="01XXXXXXXXX" 
-                      className={`w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none text-[14px] font-bold transition-all bg-transparent focus:ring-2 ${!row.isValidMobile ? 'text-red-500 bg-red-50 focus:ring-red-100' : 'text-[#FF9606] focus:ring-orange-100'}`}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Footer Actions */}
-        <div className="p-8 flex flex-col md:flex-row justify-between items-center bg-gray-50 border-t border-gray-100 gap-6">
-          <div 
-            className="flex items-center gap-4 cursor-pointer group" 
-            onClick={() => setSendSms(!sendSms)}
-          >
-              <div className={`w-14 h-7 rounded-full p-1 transition-all duration-300 ${sendSms ? 'bg-[#FF9606]' : 'bg-gray-300'}`}>
-                <div className={`bg-white w-5 h-5 rounded-full shadow-lg transition-all transform duration-300 ${sendSms ? 'translate-x-7' : 'translate-x-0'}`} />
-              </div>
-              <span className="text-[13px] font-bold text-gray-500 uppercase group-hover:text-gray-700">Send SMS Confirmation</span>
+        {/* Data Entry Table */}
+        <div className="px-6 pb-24 overflow-visible">
+          <div className="flex items-center gap-2 mb-3 px-1">
+            <Users size={16} className="text-slate-400" />
+            <h2 className="text-[13px] font-bold text-slate-500 uppercase tracking-tight">Student Information Sheet</h2>
           </div>
           
-          <div className="flex gap-4 w-full md:w-auto">
-            <button 
-              onClick={resetForm}
-              className="flex-1 md:flex-none px-8 py-3.5 rounded-xl border-2 border-gray-200 text-gray-500 font-bold text-[13px] hover:bg-white hover:border-red-200 hover:text-red-500 transition-all uppercase tracking-widest"
-            >
-              <RotateCcw size={16} className="inline mr-2" /> Reset
-            </button>
-            <button 
-              className="flex-1 md:flex-none px-12 py-3.5 rounded-xl text-white font-bold text-[13px] shadow-xl hover:brightness-110 transition-all active:scale-95 uppercase tracking-widest flex items-center justify-center gap-2"
-              style={{ backgroundColor: THEME_COLOR }}
-            >
-              <Save size={18} /> Save Data Record
-            </button>
+          <div className="border border-slate-200 rounded-xl overflow-visible bg-white">
+            <table className="w-full border-separate border-spacing-0">
+              <thead>
+                <tr className="bg-slate-50">
+                  <th className="p-4 w-14 border-b border-slate-200 text-center rounded-tl-xl">
+                    <input type="checkbox" className="w-4 h-4 accent-[#FF9606] cursor-pointer" />
+                  </th>
+                  {['Roll No.', 'Student Name', 'Gender', 'Religion', 'Father\'s Name', 'Mother\'s Name', 'Mobile No.'].map((h, i) => (
+                    <th key={i} className={`p-4 border-b border-l border-slate-200 text-left text-[11px] font-extrabold text-slate-600 uppercase tracking-wider ${i === 6 ? 'rounded-tr-xl' : ''}`}>
+                      {h} <span className="text-red-400">*</span>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row, idx) => (
+                  <tr key={row.id} className="group hover:bg-slate-50/50 transition-colors">
+                    <td className="p-3 border-b border-slate-100 text-center">
+                      <input type="checkbox" className="w-4 h-4 accent-[#FF9606]" />
+                    </td>
+                    <td className="p-3 border-b border-l border-slate-100">
+                      <input type="text" placeholder="Roll" className="w-full bg-transparent p-2 text-xs border border-transparent group-hover:border-slate-200 rounded focus:bg-white focus:border-[#FF9606] outline-none transition-all" />
+                    </td>
+                    <td className="p-3 border-b border-l border-slate-100">
+                      <input type="text" placeholder="Full Name" className="w-full bg-transparent p-2 text-xs font-semibold border border-transparent group-hover:border-slate-200 rounded focus:bg-white focus:border-[#FF9606] outline-none transition-all" />
+                    </td>
+                    <td className="p-3 border-b border-l border-slate-100 overflow-visible">
+                      <SearchableSelect isTable options={['Male', 'Female', 'Other']} placeholder="Select" />
+                    </td>
+                    <td className="p-3 border-b border-l border-slate-100 overflow-visible">
+                      <SearchableSelect isTable options={['Islam', 'Hindu', 'Christian']} placeholder="Select" />
+                    </td>
+                    <td className="p-3 border-b border-l border-slate-100">
+                      <input type="text" className="w-full bg-transparent p-2 text-xs border border-transparent group-hover:border-slate-200 rounded focus:bg-white focus:border-[#FF9606] outline-none" />
+                    </td>
+                    <td className="p-3 border-b border-l border-slate-100">
+                      <input type="text" className="w-full bg-transparent p-2 text-xs border border-transparent group-hover:border-slate-200 rounded focus:bg-white focus:border-[#FF9606] outline-none" />
+                    </td>
+                    <td className="p-3 border-b border-l border-slate-100">
+                      <input type="text" placeholder="01XXX-XXXXXX" className="w-full bg-transparent p-2 text-xs font-black text-[#FF9606] border border-transparent group-hover:border-slate-200 rounded focus:bg-white outline-none" />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
+
+        {/* Floating Action Bar */}
+       {/* Floating Action Bar */}
+<div className="sticky bottom-0 bg-white/80 backdrop-blur-md border-t border-slate-200 px-8 py-4 flex flex-row-reverse justify-between items-center gap-4 rounded-b-xl">
+  
+  {/* Right Side: Auto SMS */}
+  <div className="flex items-center gap-4">
+    
+    <button className="flex items-center gap-2 bg-gradient-to-r from-[#3368f1] to-[#4247a1]   text-white px-10 py-3 rounded-lg font-bold text-xs transition-all shadow-lg shadow-indigo-100 active:scale-95 uppercase tracking-widest">
+      <Save size={16}/> Save 
+    </button>
+    <button className="flex items-center gap-2  py-3 px-6 bg-gradient-to-r from-[#3368f1] to-[#4247a1]  rounded-lg text-white font-bold text-xs transition-colors uppercase tracking-widest">
+      <RotateCcw size={14}/> Reset 
+    </button>
+  </div>
+  
+  {/* Left Side: Reset and Save Buttons */}
+  <div className="flex gap-4">
+    <span className="text-[12px] font-black text-slate-500 uppercase tracking-widest">Auto SMS</span>
+    <div 
+      className={`w-12 h-6 rounded-full p-1 cursor-pointer transition-all duration-300 ${sendSms ? 'bg-[#FF9606] ring-4 ring-orange-100' : 'bg-slate-300'}`}
+      onClick={() => setSendSms(!sendSms)}
+    >
+      <div className={`bg-white w-4 h-4 rounded-full shadow-md transition-transform duration-300 ${sendSms ? 'translate-x-6' : 'translate-x-0'}`} />
+    </div>
+  </div>
+</div>
       </div>
 
       <style>{`
-        .animate-spin-slow { animation: spin-slow 3s linear infinite; }
-        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f9fafb; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; border: 2px solid #f9fafb; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #FF9606; }
-        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .animate-spin-slow { animation: spin 4s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}</style>
     </div>
   );
 };
 
-// মেমোরাইজড কাস্টম সিলেক্ট কম্পোনেন্ট
-const CustomSelect = ({ index, field, value, options, activeSelect, setActiveSelect, updateRow, searchTerm, setSearchTerm }) => {
-  const isOpen = activeSelect === `${index}-${field}`;
-  const filteredOptions = options.filter(opt => opt.toLowerCase().includes(searchTerm.toLowerCase()));
+// Modern Searchable Select Component
+const SearchableSelect = ({ label, options, placeholder, isTable = false }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selected, setSelected] = useState("");
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const close = (e) => { if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setIsOpen(false); };
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
+  }, []);
+
+  const filtered = options.filter(opt => opt.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
-    <div className="relative w-full" onClick={(e) => e.stopPropagation()}>
+    <div className="relative w-full" ref={dropdownRef}>
+      {label && <label className="text-[12px] font-bold text-slate-600 mb-1.5 block px-1">{label} <span className="text-red-500">*</span></label>}
       <div 
-        onClick={() => {
-          setActiveSelect(isOpen ? null : `${index}-${field}`);
-          setSearchTerm("");
-        }}
-        className={`flex items-center justify-between px-4 py-2.5 rounded-lg bg-white border cursor-pointer transition-all text-[14px] ${
-          isOpen ? 'border-[#FF9606] ring-4 ring-orange-50' : 'border-gray-100 hover:border-gray-300'
-        }`}
+        onClick={() => setIsOpen(!isOpen)}
+        className={`flex items-center justify-between bg-slate-50/50 border border-slate-200 rounded-lg px-4 py-2.5 cursor-pointer text-xs transition-all duration-200 hover:bg-white hover:border-[#FF9606] ${isOpen ? 'ring-4 ring-orange-50 border-[#FF9606] bg-white shadow-sm' : ''} ${isTable ? 'py-2 px-3 bg-transparent border-transparent' : ''}`}
       >
-        <span className={value ? "text-gray-900 font-semibold" : "text-gray-400 italic"}>
-          {value || `Select...`}
+        <span className={`font-medium ${selected ? 'text-slate-900' : 'text-slate-400'}`}>
+          {selected || placeholder || options[0]}
         </span>
-        <ChevronDown size={14} className={`text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#FF9606]' : ''}`} />
+        <ChevronDown size={14} className={`text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#FF9606]' : ''}`} />
       </div>
 
       {isOpen && (
-        <div className="absolute z-[100] w-full mt-2 bg-white border border-gray-100 shadow-2xl rounded-xl overflow-hidden animate-in fade-in zoom-in duration-200">
-          <div className="p-2 border-b border-gray-50 bg-gray-50/50">
+        <div className="absolute z-[9999] w-full mt-2 bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.15)] rounded-xl overflow-hidden animate-in fade-in zoom-in duration-200 min-w-[180px]">
+          <div className="p-3 border-b border-slate-100 bg-slate-50/30">
             <div className="relative">
               <input
                 autoFocus
-                className="w-full pl-8 pr-4 py-2 text-[13px] border border-gray-200 rounded-lg outline-none focus:border-[#FF9606] bg-white"
+                className="w-full pl-3 pr-8 py-2 text-xs border border-slate-200 rounded-lg outline-none focus:border-[#2D3192] transition-all"
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <Search size={14} className="absolute left-2.5 top-2.5 text-gray-400" />
+              <Search size={14} className="absolute right-3 top-2.5 text-slate-300" />
             </div>
           </div>
-          <div className="max-h-[200px] overflow-y-auto custom-scrollbar">
-            {filteredOptions.length > 0 ? (
-              filteredOptions.map((opt) => (
-                <div
-                  key={opt}
-                  onClick={() => updateRow(index, field, opt)}
-                  className="px-4 py-2.5 text-[13px] text-gray-700 hover:bg-orange-50 hover:text-[#FF9606] cursor-pointer transition-colors font-medium border-b border-gray-50 last:border-0"
-                >
-                  {opt}
-                </div>
-              ))
-            ) : (
-              <div className="px-4 py-3 text-[12px] text-gray-400 text-center">No results found</div>
-            )}
+          <div className="max-h-52 overflow-y-auto p-1">
+            {filtered.length > 0 ? filtered.map((opt) => (
+              <div
+                key={opt}
+                onClick={() => { setSelected(opt); setIsOpen(false); setSearchTerm(""); }}
+                className={`px-3 py-2.5 text-xs rounded-lg cursor-pointer transition-all mb-1 last:mb-0 ${selected === opt ? 'bg-[#2D3192] text-white font-bold shadow-md' : 'hover:bg-slate-100 text-slate-700 font-medium'}`}
+              >
+                {opt}
+              </div>
+            )) : <div className="p-4 text-center text-slate-400 text-[11px] font-bold">No results found</div>}
           </div>
         </div>
       )}

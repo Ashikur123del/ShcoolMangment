@@ -5,6 +5,10 @@ import Dashboard from './Pages/Dashboards/Dashboard';
 import Root from './RootLayout/Root';
 import StudentRegistration from './Pages/Students/StudentRegistration';
 import RegistrationExcel from './Pages/Students/RegistrationExcel';
+import UpdateProfile from './Pages/Students/UpdateProfile';
+import UpdateBasicInfo from './Pages/Students/UpdateBasicInfo';
+import UpdateClassInfo from './Pages/Students/UpdateClassInfo';
+import UpdateStatus from './Pages/Students/UpdateStatus';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -53,10 +57,10 @@ function App() {
           <Route path="students">
             <Route path="registration/form" element={<StudentRegistration />} />
             <Route path="registration/excel" element={<RegistrationExcel /> } />
-            <Route path="update/profile" element={<div>Student Profile Update</div>} />
-            <Route path="update/basic-info" element={<div>Student Basic Info Update</div>} />
-            <Route path="update/class-info" element={<div>Student Class Info Update</div>} />
-            <Route path="update/status" element={<div>Student Profile Status</div>} />
+            <Route path="update/profile" element={<UpdateProfile />} />
+            <Route path="update/basic-info" element={<UpdateBasicInfo />} />
+            <Route path="update/class-info" element={<UpdateClassInfo/>} />
+            <Route path="update/status" element={<UpdateStatus/>} />
             <Route path="migration/with-merit" element={<div>Migration With Merit</div>} />
             <Route path="migration/without-merit" element={<div>Migration Without Merit</div>} />
             <Route path="migration/pushback" element={<div>Migration Pushback</div>} />
